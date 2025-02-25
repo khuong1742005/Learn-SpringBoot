@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 th:text="${message}"></h1>
+    <form th:action="@{/v1/deleteUser}" method="post">
+        <label for="id">Nhập ID của User:</label>
+        <p><input type="text" id="id" name="id" required></p>
+        <button class="custom-btn">Xóa User</button>
+        <a href="#" th:href="@{/v1/showUser}" class="custom-btn" style="text-decoration-line: none">Danh sách user</a>
+        <a href="#" th:href="@{/v1/home}" class="custom-btn" style="text-decoration-line: none">Trang chủ</a>
+    </form>
+
+</body>
+
+</html>

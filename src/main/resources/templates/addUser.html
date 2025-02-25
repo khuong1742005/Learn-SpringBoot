@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 th:text="${message}"></h1>
+    <form th:action="@{/v1/addUser}" th:object="${user}" method="post">
+        <p>First name: <input type="text" th:field="*{firstName}"/></p>
+        <p>Last name: <input type="text" th:field="*{lastName}"/></p>
+        <p>Age: <input type="text" th:field="*{age}"/></p>
+        <p>Email: <input type="text" th:field="*{email}"/></p>
+        <p>Gender: <input type="text" th:field="*{gender}"/></p>
+        <button class="custom-btn">Xác nhận thêm</button>
+        <a href="#" th:href="@{/v1/showUser}" class="custom-btn" style="text-decoration-line: none">Danh sách user</a>
+        <a href="#" th:href="@{/v1/home}" class="custom-btn" style="text-decoration-line: none">Trang chủ</a>
+    </form>
+</body>
+
+</html>
