@@ -11,7 +11,7 @@
 <body>
     <h1 th:text="${message}"></h1>
     <form th:action="@{/v1/deleteUser}" method="post">
-        <label for="id">Nhập ID của User:</label>
+        <label for="id">Nhập stt của User:</label>
         <p><input type="text" id="id" name="id" required></p>
         <button class="custom-btn">Xóa User</button>
         <a href="#" th:href="@{/v1/showUser}" class="custom-btn" style="text-decoration-line: none">Danh sách user</a>

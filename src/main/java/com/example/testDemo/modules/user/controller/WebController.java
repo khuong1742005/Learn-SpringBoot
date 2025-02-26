@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,7 +18,6 @@ public class WebController {
     private final ModelAndView modelAndView;
     private final ModelMapper modelMapper;
     private final IUserServiceImpl userService;
-    private ArrayList<UserDTO> usersDTO = new ArrayList<>();
 
     public WebController(ModelAndView modelAndView, ModelMapper modelMapper, IUserServiceImpl userService) {
         this.modelAndView = modelAndView;
@@ -37,8 +35,7 @@ public class WebController {
     public ModelAndView getUser() {
         modelAndView.setViewName("showUser");
         modelAndView.addObject("message", "List users: ");
-        usersDTO = modelMapper.map(userService.getUsers(), new TypeToken<List<UserDTO>>(){}.getType());
-        modelAndView.addObject("users", usersDTO);
+        modelAndView.addObject("users", modelMapper.map(userService.getUsers(), new TypeToken<List<UserDTO>>(){}.getType()));
         return modelAndView;
     }
 
@@ -68,7 +65,7 @@ public class WebController {
     @GetMapping("/deleteUser")
     public ModelAndView deleteUser() {
         modelAndView.setViewName("deleteUser");
-        modelAndView.addObject("message", "Nhập id của user muốn xóa");
+        modelAndView.addObject("message", "Nhập stt của user muốn xóa");
         return modelAndView;
     }
 

@@ -40,7 +40,7 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public boolean deleteUserById(int stt) {
-        if (userRepository.findByStt(stt) == null) return false;
+        if (!userRepository.existsByStt(stt)) return false;
         userRepository.delete(userRepository.findByStt(stt));
         return true;
     }

@@ -254,6 +254,16 @@ hàm đánh dấu với annotation sẽ được gọi.
 - Cách dùng:
     + Khởi tạo một interface repository và đánh dấu Bean, extend JpaRepository<T, Type>
     + Inject interface vào dự án và gọi các impl để dùng.
+- Cơ chế:
+    + Spring Data JPA cung cấp một cơ chế mạnh cho phép định nghĩa các method theo một cấu trúc thì sẽ tự động
+    thực hiện.
+    + Method Name Query Derivation: Tạo truy vấn từ tên phương thức.
+- Quy tắc đặt tên:
+    + Tiền tố: findBy.., readBy.., countBy.., existsBy..,...
+    + Tên trường: chuẩn tên được ánh xạ
+    + Toán tử (nếu có): And, Or, GreaterThan, LessThan, Like, Between,...
+- Ví dụ: User findFirstByOrderBySttDesc() -> SELECT * FROM user ORDER BY stt DESC LIMIT 1
+
 
 
 
