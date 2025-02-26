@@ -13,7 +13,7 @@
 
     <ul>
         <li th:each="user : ${users}">
-            <span th:text="*{user.getUserId()}"></span>
+            <span th:text="*{user.getStt()}"></span>
             <ul>
                 <li><span th:text="*{user.getUsername()}"></span></li>
                 <li><span th:text="*{user.getAge()}"></span></li>

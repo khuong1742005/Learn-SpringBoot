@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 public class UserDTO {
     @NotEmpty(message = "Id không được để trống")
-    private int userId;
+    private int stt;
 
     @NotEmpty(message = "First Name không được để trống")
     private String username;

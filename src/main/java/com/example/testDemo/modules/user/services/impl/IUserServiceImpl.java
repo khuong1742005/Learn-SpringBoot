@@ -20,9 +20,7 @@ public class IUserServiceImpl implements IUserService {
         List<User> users = userRepository.findAll();
         int countId = 0;
         for(User u : users){
-//            User user = userRepository.findById((int) u.getUserId()).orElse(null);
-//            user.setUserId(++countId);
-            u.setUserId(++countId);
+            u.setStt(++countId);
             userRepository.save(u);
         }
         return users;
@@ -41,10 +39,9 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean deleteUserById(int id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return true;
-        } else return false;
+    public boolean deleteUserById(int stt) {
+        if (userRepository.findByStt(stt) == null) return false;
+        userRepository.delete(userRepository.findByStt(stt));
+        return true;
     }
 }
