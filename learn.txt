@@ -250,6 +250,10 @@ hàm đánh dấu với annotation sẽ được gọi.
 *) Spring Boot JPA
 - Là một phần trong hệ sinh thái Spring Data, nó tạo một layer giữa tầng service và database.
 - Giúp ta thao tác với database dễ hơn, tự động config, code gọn hơn.
+- Trong Spring Boot, Hibernate là impl, JPA là API tiêu chuẩn.
+- Cách dùng:
+    + Khởi tạo một interface repository và đánh dấu Bean, extend JpaRepository<T, Long>
+    + Inject interface vào dự án và gọi các impl để dùng.
 
 
 

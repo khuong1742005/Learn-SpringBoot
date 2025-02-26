@@ -11,12 +11,14 @@ import lombok.*;
 @Getter
 @Setter
 public class UserDTO {
+    @NotEmpty(message = "Id không được để trống")
     private int id;
-    @NotEmpty(message = "First Name không được để trống")
-    private String firstName;
 
-    @NotEmpty(message = "Last Name không được để trống")
-    private String lastName;
+    @NotEmpty(message = "First Name không được để trống")
+    private String username;
+
+    @NotEmpty(message = "Số điện thoại không được để trống")
+    private String phoneNumber;
 
     @Min(value = 1, message = "Tuổi phải lớn hơn 0")
     private int age;
@@ -25,7 +27,7 @@ public class UserDTO {
     @Email(message = "Email không hợp lệ")
     private String email;
 
-    @NotEmpty(message = "Gender không được để trống")
-    private String gender;
+    @NotEmpty(message = "Role không được để trống")
+    private String role;
 
 }

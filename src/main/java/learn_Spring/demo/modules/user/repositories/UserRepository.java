@@ -1,8 +1,8 @@
 package learn_Spring.demo.modules.user.repositories;
 
-import learn_Spring.demo.base.BaseRepository;
-import org.springframework.stereotype.Repository;
+import learn_Spring.demo.modules.user.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class UserRepository extends BaseRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
+
 }

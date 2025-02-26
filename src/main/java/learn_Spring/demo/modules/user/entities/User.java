@@ -2,16 +2,27 @@ package learn_Spring.demo.modules.user.entities;
 
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Entity
+@Table(name="user")
 public class User {
+    @Id
     private int id;
-    private String firstName;
-    private String lastName;
+    @Column(nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
     private int age;
+    @Column(nullable = false)
     private String email;
-    private String gender;
+    @Column(nullable = false)
+    private String phoneNumber;
+    @Column(nullable = false)
+    private String role;
 }
