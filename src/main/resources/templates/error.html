@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lỗi</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <h1>Lỗi</h1>
+    <p th:text="${message}"></p>
+    <a th:href="${returnLink}" th:text="${returnPage}" class="custom-btn" style="text-decoration-line: none"></a>
+</body>
+</html>

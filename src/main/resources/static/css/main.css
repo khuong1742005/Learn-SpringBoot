@@ -1,0 +1,26 @@
+.custom-btn {
+    display: inline-block;
+    padding: 12px 24px; /* Kích thước nút */
+    font-size: 16px; /* Kích cỡ chữ */
+    font-weight: bold; /* Chữ in đậm */
+    color: #fff; /* Màu chữ */
+    background-color: #007bff; /* Màu nền chính */
+    border: none; /* Không đường viền */
+    border-radius: 8px; /* Bo tròn các góc */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+    cursor: pointer; /* Con trỏ chuột dạng pointer */
+    text-transform: uppercase; /* Viết hoa chữ */
+    transition: all 0.3s ease; /* Tạo hiệu ứng khi hover và nhấn */
+}
+
+.custom-btn:hover {
+    background-color: #0056b3; /* Màu nền khi hover chuột */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Tăng đổ bóng khi hover */
+    transform: translateY(-2px); /* Hiệu ứng nổi lên */
+}
+
+.custom-btn:active {
+    background-color: #004494; /* Màu nền khi nhấn chuột */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Giảm đổ bóng khi nhấn */
+    transform: translateY(0); /* Lấy lại vị trí cũ */
+}

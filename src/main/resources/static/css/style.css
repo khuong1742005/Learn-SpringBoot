@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    /* background-image: url(logo.png); */
+}
+
+.header img {
+    width: 200px;
+    height: 100px;
+}
+
+.header-right {
+    align-content: center;
+    text-align: center;
+}
+
+.header-right .p1 {
+    color: blue;
+    font-weight: bold;
+}
+
+.header-right p {
+    font-size: 25px;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #0033CC;
+    padding: 10px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+
+.nav img {
+    width: 60px;
+    height: 30px;
+}
+
+.nav input {
+    width: 300px;
+}
+
+.container {
+    display: flex;
+}
+
+.menu {
+    background-color: #4d79ff;
+    height: 100%;
+}
+
+.menu .main {
+    background-color: #2057fc;
+    height: 40px;
+    color: white;
+    text-align: center;
+    align-content: center;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.menu .cap1:hover p {
+    color: yellow;
+}
+
+.menu p {
+    margin: 20px;
+    color: white;
+    font-size: 20px;
+}
+
+.menu .cap2 ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.menu .cap2 .submenu {
+    width: 200px;
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 100%;
+    z-index: 10;
+    background-color: rgb(73, 112, 240);
+}
+
+.menu .cap2 {
+    position: relative;
+}
+
+.menu .cap2:hover .submenu {
+    display: block;
+}
+
+.content {
+    margin-left: 30px;
+    width: 80%;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px 20px 0;
+}
+
+.content hr {
+    background-color: blue;
+    height: 5px;
+}
+
+.content-main {
+    display: flex;
+    margin-top: 10px;
+}
+
+.content-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-left img {
+    margin-bottom: 1px;
+    height: 150px;
+    width: 200px;
+}
+
+.content-right {
+    margin-left: 20px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content1 {
+    margin-right: 20px;
+    height: 250px;
+}
+
+.imag {
+    border: 1px solid gray;
+}
+
+.content-right img {
+    margin: 5px;
+    height: 200px;
+    width: 250px;
+}
+
+.content-right p {
+    margin-top: 20px;
+}
+
+.content-right .pp {
+    text-align: center;
+    align-content: center;
+}
+
+.content-right .pp .lh {
+    color: blue;
+    font-weight: bold;
+}
+
+.content1 img:hover {
+    transform: scale(1.1);
+}
+
+.content1 p:hover {
+    color: red;
+}
+
+.content1 .lh:hover {
+    color: green;
+}
+
