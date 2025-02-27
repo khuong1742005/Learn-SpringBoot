@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" th:href="@{/css/style2.css}">
+</head>
+<body>
+<div class="container fade-in">
+    <div class="card">
+        <h2>Đăng nhập</h2>
+        <form th:action="@{/v1/auth/login}" method="post">
+            <p><input type="email" placeholder="Email" name="email" required></p>
+            <p><input type="password" placeholder="Mật khẩu" name="password" required></p>
+            <button>Đăng nhập</button>
+        </form>
+        <div class="social-login">
+            <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+            <button class="social-btn google"><i class="fab fa-google"></i></button>
+        </div>
+        <p>Chưa có tài khoản? <a class="toggle-btn" onclick="navigateTo()" th:href="@{/v1/auth/signup}">Đăng ký ngay</a></p>
+    </div>
+</div>
+
+<script>
+    function navigateTo() {
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+        }, 100);
+    }
+</script>
+</body>
+</html>

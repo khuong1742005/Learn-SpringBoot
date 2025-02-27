@@ -1,0 +1,103 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    font-family: Arial, sans-serif;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    transition: transform 0.5s;
+}
+.flip-animation {
+    transform: rotateY(180deg);
+}
+input {
+    width: 93%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background: #00c6ff;
+}
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+.social-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+}
+.facebook {
+    background: #3b5998;
+}
+.google {
+    background: #db4437;
+}
+.facebook:hover {
+    background: #2d4373;
+}
+.google:hover {
+    background: #c1351d;
+}
+.hidden {
+    display: none;
+}
+#toggle-text-login, #toggle-text-signup {
+    margin-top: 10px;
+    color: gray;
+}
+#toggle-btn-login, #toggle-btn-signup {
+    color: #4facfe;
+    cursor: pointer;
+}
+#toggle-btn-login:hover, #toggle-btn-signup:hover {
+    text-decoration: underline;
+}
+
+.fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Animation khi chuyển trang */
+.fade-out {
+    opacity: 0;
+}

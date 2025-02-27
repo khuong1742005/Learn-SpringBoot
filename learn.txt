@@ -121,6 +121,7 @@
     + Do đó thay vì khởi tạo riêng lẻ thì gom chung các Bean cần khởi tạo lại bỏ vào class chứa. Thường
     các class được đánh dấu là @Configuration và có hậu tố là Config.
     + Các thao tác xử lý được đặt trong Constructor và khai báo các module bằng @Bean
+- @Value: dùng để đưa giá trị trong application.properties vào bằng cách: @Value("${}")
 *) ModelMapper
 - Là một thư viện của Java, giúp đơn giản hóa việc convert giữa các Class.
 - Ví dụ: Thay vì phải copy từng field của class A sang class B thì làm như sau:
@@ -263,6 +264,9 @@ hàm đánh dấu với annotation sẽ được gọi.
     + Tên trường: chuẩn tên được ánh xạ
     + Toán tử (nếu có): And, Or, GreaterThan, LessThan, Like, Between,...
 - Ví dụ: User findFirstByOrderBySttDesc() -> SELECT * FROM user ORDER BY stt DESC LIMIT 1
+- @Query: Nếu không muốn JPA tự tạo query tự động thì có thể tự custom
+    + Ví dụ: @Query("select u from User u where u.emailAddress = ?1")
+             User myCustomQuery(String emailAddress);
 
 
 
