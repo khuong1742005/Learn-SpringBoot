@@ -1,47 +1,58 @@
 package com.example.testDemo.modules.user.services.impl;
 
+import com.example.testDemo.modules.user.dtos.requests.UserCreationRequest;
+import com.example.testDemo.modules.user.dtos.requests.UserUpdateRequest;
 import com.example.testDemo.modules.user.repositories.UserRepository;
 import com.example.testDemo.modules.user.entities.User;
 import com.example.testDemo.modules.user.services.interfaces.IUserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class IUserServiceImpl implements IUserService {
-    private final UserRepository userRepository;
-
-    public IUserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public List<User> getUsers() {
-        List<User> users = userRepository.findAll();
-        int countId = 0;
-        for(User u : users){
-            u.setStt(++countId);
-            userRepository.save(u);
-        }
-        return users;
-    }
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
-    public boolean addUser(User user) {
-        user.setRole("USER");
+    public boolean createUser(UserCreationRequest request){
+        User user = modelMapper.map(request, User.class);
         userRepository.save(user);
         return true;
     }
 
     @Override
-    public User getUserById(int id) {
-        return userRepository.findById(id).orElse(null);
+    public List<User> getUsers(){
+        return userRepository.findAll();
     }
 
     @Override
-    public boolean deleteUserById(int stt) {
-        if (!userRepository.existsByStt(stt)) return false;
-        userRepository.delete(userRepository.findByStt(stt));
+    public User getUserById(String id){
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public boolean updateUserById(String id, UserUpdateRequest request){
+        User user = getUserById(id);
+        if (request.getPassword() != null) user.setPassword(request.getPassword());
+        if (request.getFirstName() != null) user.setFirstName(request.getFirstName());
+        if (request.getLastName() != null) user.setLastName(request.getLastName());
+        if (request.getEmail() != null) user.setEmail(request.getEmail());
+        if (request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
+        if (request.getAge() != 0) user.setAge(request.getAge());
+
+        userRepository.save(user);
+        return true;
+    }
+
+    @Override
+    public boolean deleteUserById(String id){
+        if (!userRepository.existsById(id)) return false;
+        userRepository.deleteById(id);
         return true;
     }
 }

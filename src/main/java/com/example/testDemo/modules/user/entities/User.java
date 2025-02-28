@@ -10,16 +10,21 @@ import lombok.Data;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
-    private long userId;
-
-    @Column(name = "stt")
-    private int stt;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private String id;
 
     @Column(name = "username")
     @NotEmpty(message = "Username không được để trống")
     private String username;
+
+    @Column(name = "first_name")
+    @NotEmpty(message = "Tên không được để trống")
+    private String firstName;
+
+    @Column(name = "last_name")
+    @NotEmpty(message = "Họ không được để trống")
+    private String lastName;
 
     @Column(name = "password")
     @NotEmpty(message = "Mật khẩu không được để trống")
@@ -30,7 +35,7 @@ public class User {
     @Email
     private String email;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     @NotEmpty(message = "Số điện thoại không được để trống")
     private String phoneNumber;
 
