@@ -1,5 +1,6 @@
 package com.example.testDemo.exceptions;
 
+import com.example.testDemo.dtos.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,13 +10,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<String> handlingRunTimeException(RuntimeException ex){
-        return ResponseEntity.badRequest().body(ex.getMessage());
+    public ResponseEntity<ApiResponse> handlingRunTimeException(RuntimeException ex){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(400);
+        apiResponse.setMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handlingValidationException(MethodArgumentNotValidException ex){
-        return ResponseEntity.badRequest().body(ex.getFieldError().getDefaultMessage());
+    public ResponseEntity<ApiResponse> handlingValidationException(MethodArgumentNotValidException ex){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(400);
+        apiResponse.setMessage(ex.getFieldError().getDefaultMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
     @ExceptionHandler(value = TransactionSystemException.class)

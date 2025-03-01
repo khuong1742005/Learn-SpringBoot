@@ -7,6 +7,8 @@ import com.example.testDemo.entities.User;
 import com.example.testDemo.services.interfaces.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class IUserServiceImpl implements IUserService {
     private ModelMapper modelMapper;
 
     @Override
-    public boolean createUser(UserCreationRequest request) {
+    public User createUser(UserCreationRequest request) {
         if (userRepository.existsUserByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -31,8 +33,10 @@ public class IUserServiceImpl implements IUserService {
         }
         User user = modelMapper.map(request, User.class);
         user.setRole("USER");
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
-        return true;
+        return user;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean updateUserById(String id, UserUpdateRequest request) {
+    public User updateUserById(String id, UserUpdateRequest request) {
         User user = getUserById(id);
         if (request.getPassword() != null) user.setPassword(request.getPassword());
         if (request.getFirstName() != null) user.setFirstName(request.getFirstName());
@@ -66,7 +70,7 @@ public class IUserServiceImpl implements IUserService {
         if (request.getAge() != 0) user.setAge(request.getAge());
 
         userRepository.save(user);
-        return true;
+        return user;
     }
 
     @Override

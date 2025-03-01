@@ -267,7 +267,10 @@ hàm đánh dấu với annotation sẽ được gọi.
 - @Query: Nếu không muốn JPA tự tạo query tự động thì có thể tự custom
     + Ví dụ: @Query("select u from User u where u.emailAddress = ?1")
              User myCustomQuery(String emailAddress);
-
+*) Normalize API
+- Các api khi trả về phía client phải có ý nghĩa: code, message, result,...
+    + Tạo một class ApiResponse<T> để có thể custom api trả về.
+- @JsonInclude(JsonInclude.Include.NON_NULL): Nếu có field là null thì api sẽ ẩn đi field đó.
 
 
 

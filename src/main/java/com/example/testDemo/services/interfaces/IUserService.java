@@ -7,9 +7,9 @@ import com.example.testDemo.entities.User;
 import java.util.List;
 
 public interface IUserService {
-    boolean createUser(UserCreationRequest request);
+    User createUser(UserCreationRequest request);
     List<User> getUsers();
     User getUserById(String id);
-    boolean updateUserById(String id, UserUpdateRequest request);
+    User updateUserById(String id, UserUpdateRequest request);
     boolean deleteUserById(String id);
 }
