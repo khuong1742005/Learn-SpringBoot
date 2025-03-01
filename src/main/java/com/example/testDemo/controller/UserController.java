@@ -4,6 +4,7 @@ import com.example.testDemo.dtos.response.ApiResponse;
 import com.example.testDemo.dtos.requests.UserCreationRequest;
 import com.example.testDemo.dtos.requests.UserUpdateRequest;
 import com.example.testDemo.entities.User;
+import com.example.testDemo.helpers.CodeStatus;
 import com.example.testDemo.services.impl.IUserServiceImpl;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,7 @@ public class UserController {
     @PostMapping
     public ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
         ApiResponse<User> apiRespons = new ApiResponse<>();
+        apiRespons.setCode(CodeStatus.USER_CREATED_SUCCESS.getCode());
         apiRespons.setResult(userService.createUser(request));
         return apiRespons;
     }
@@ -30,6 +32,7 @@ public class UserController {
     @GetMapping
     public ApiResponse<List<User>> getUsers() {
         ApiResponse<List<User>> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
         apiResponse.setResult(userService.getUsers());
         return apiResponse;
     }
@@ -37,6 +40,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ApiResponse<User> getUserById(@PathVariable("id") String id) {
         ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
         apiResponse.setResult(userService.getUserById(id));
         return apiResponse;
     }
@@ -44,6 +48,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ApiResponse<User> updateUser(@PathVariable("id") String id, @RequestBody @Valid UserUpdateRequest request) {
         ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(CodeStatus.USER_UPDATED_SUCCESS.getCode());
         apiResponse.setResult(userService.updateUserById(id, request));
         return apiResponse;
     }
@@ -52,11 +57,12 @@ public class UserController {
     public ApiResponse deleteUserById(@PathVariable("id") String id) {
         ApiResponse apiResponse = new ApiResponse<>();
         if (userService.deleteUserById(id)) {
-            apiResponse.setMessage("User deleted successfully!");
+            apiResponse.setCode(CodeStatus.USER_DELETE_SUCCESS.getCode());
+            apiResponse.setMessage(CodeStatus.USER_DELETE_SUCCESS.getMessage());
             return apiResponse;
         }
-        apiResponse.setCode(400);
-        apiResponse.setMessage("User deleted failed!");
+        apiResponse.setCode(CodeStatus.USER_DELETE_FAILED.getCode());
+        apiResponse.setMessage(CodeStatus.USER_DELETE_FAILED.getMessage());
         return apiResponse;
     }
 }
