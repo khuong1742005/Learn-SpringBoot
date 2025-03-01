@@ -1,8 +1,8 @@
-package com.example.testDemo.modules.user.services.interfaces;
+package com.example.testDemo.services.interfaces;
 
-import com.example.testDemo.modules.user.dtos.requests.UserCreationRequest;
-import com.example.testDemo.modules.user.dtos.requests.UserUpdateRequest;
-import com.example.testDemo.modules.user.entities.User;
+import com.example.testDemo.dtos.requests.UserCreationRequest;
+import com.example.testDemo.dtos.requests.UserUpdateRequest;
+import com.example.testDemo.entities.User;
 
 import java.util.List;
 

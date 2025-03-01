@@ -1,14 +1,6 @@
-package com.example.testDemo.modules.user.controller;
+package com.example.testDemo.controller;
 
-import com.example.testDemo.modules.user.entities.User;
-import com.example.testDemo.modules.user.services.impl.IUserServiceImpl;
-import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import static com.example.testDemo.helpers.ErrorView.errorModel;
 
 @RestController
 @RequestMapping("/v1/auth")

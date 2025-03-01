@@ -1,4 +1,4 @@
-package com.example.testDemo.modules.user.dtos;
+package com.example.testDemo.dtos;
 
 import lombok.*;
 

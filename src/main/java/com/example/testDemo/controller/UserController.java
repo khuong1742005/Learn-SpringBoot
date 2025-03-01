@@ -1,9 +1,10 @@
-package com.example.testDemo.modules.user.controller;
+package com.example.testDemo.controller;
 
-import com.example.testDemo.modules.user.dtos.requests.UserCreationRequest;
-import com.example.testDemo.modules.user.dtos.requests.UserUpdateRequest;
-import com.example.testDemo.modules.user.entities.User;
-import com.example.testDemo.modules.user.services.impl.IUserServiceImpl;
+import com.example.testDemo.dtos.requests.UserCreationRequest;
+import com.example.testDemo.dtos.requests.UserUpdateRequest;
+import com.example.testDemo.entities.User;
+import com.example.testDemo.services.impl.IUserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class UserController {
     private IUserServiceImpl userService;
 
     @PostMapping
-    public String createUser(@RequestBody UserCreationRequest request) {
+    public String createUser(@RequestBody @Valid UserCreationRequest request) {
         if (userService.createUser(request))
             return "User created successfully!";
         return "User created failed!";
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable("id") String id, @RequestBody UserUpdateRequest request) {
+    public String updateUser(@PathVariable("id") String id, @RequestBody @Valid UserUpdateRequest request) {
         if (userService.updateUserById(id, request))
             return "User updated successfully!";
         return "User update failed!";
