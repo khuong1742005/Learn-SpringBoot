@@ -1,10 +1,11 @@
 package com.example.testDemo.dtos.response;
 
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 @Data
-@Component
+@Builder
 public class AuthResponse {
+    private String token;
     private boolean authenticated;
 }

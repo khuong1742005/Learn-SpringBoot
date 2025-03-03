@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     @Autowired
     IAuthServiceImpl authService;
-    @Autowired
+
     AuthResponse authResponse;
 
     @PostMapping("/log-in")
