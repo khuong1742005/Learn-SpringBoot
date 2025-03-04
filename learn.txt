@@ -271,7 +271,52 @@ hàm đánh dấu với annotation sẽ được gọi.
 - Các api khi trả về phía client phải có ý nghĩa: code, message, result,...
     + Tạo một class ApiResponse<T> để có thể custom api trả về.
 - @JsonInclude(JsonInclude.Include.NON_NULL): Nếu có field là null thì api sẽ ẩn đi field đó.
-
+*) JWT (Json Web Token)
+- JWT là một phương tiện đại diện cho các yêu cầu chuyển giao giữa client-server.
+- Các thông tin trong chuỗi được định dạng bằng JSON.
+- Một chuỗi token có định dạng như sau:  header.payload.signature
+	+ HEADER: Algorithm & Token Type
+	+ PAYLOAD: Data
+	+ SIGNATURE: Verification
+- Khi nào nên sử dụng:
+	+ Authentication: Các request phía người dùng sẽ kèm theo JWT, điều này cho phép người dùng có thể truy 
+	cập vào các resource mà token đó cho phép.
+- Luồng xử lý:
+	+ User thực hiện thao tác request (login,..).
+	+ Authentication Server tạo JWT và trả về cho User thông qua response.
+	+ User nhận JWT trả về làm chìa khóa để thực hiện các "lệnh" tiếp theo.
+	+ API xác thực JWT đó và cấp quyền truy cập cho User.
+- NO SESSIONS:
+	+ Với JWT sẽ không cần giữ sessions trong suốt quá trình mà luồng xử lý sẽ như trên, thông qua token.
+	+ No sessions storage: không có session đồng nghĩa không cần lưu sessions -> tối ưu bộ nhớ.
+	+ Truely RESTful services: khi không có sessions thì mới có thể tạo nên 1 service thuần RESTful.
+- Cách gen token:
+    @NonFinal
+    protected static final String SIGNER_KEY = "IOg/flCDdPNoC2+j4/G0m3l8FhX7paEreFwAeO2eFf4YhZabokoyI38afEtUGut7\n";
+    private String generateToken(String username) {
+        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder().
+                subject(username).
+                issuer("demo.com").
+                issueTime(new Date()).
+                expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli())).
+                claim("Custom claim", "Custom").
+                build();
+        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
+        JWSObject jwsObject = new JWSObject(header, payload);
+        try {
+            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes(StandardCharsets.UTF_8)));
+            return jwsObject.serialize();
+        } catch (JOSEException e) {
+            throw new RuntimeException(e);
+        }
+    }
+*) Các annotation hữu ich:
+- @Builder: Dùng để giúp 1 class có thể build các field một cách nhanh chóng.
+    VD: return AuthResponse.builder().token(token).authenticated(true).build();
+- @FieldDefaults: Dùng để định nghĩa 1 field nếu không khai báo phạm vi hay bất kì gì khác:
+    VD: @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+- @JsonInclude(JsonInclude.Include.NON_NULL): Dùng để JSON không trả về các field null.
 
 
 

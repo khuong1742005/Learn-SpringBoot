@@ -1,37 +1,43 @@
 package com.example.testDemo.controller;
 
 import com.example.testDemo.dtos.requests.AuthRequest;
+import com.example.testDemo.dtos.requests.IntrospectRequest;
 import com.example.testDemo.dtos.response.ApiResponse;
 import com.example.testDemo.dtos.response.AuthResponse;
+import com.example.testDemo.dtos.response.IntrospectResponse;
 import com.example.testDemo.helpers.CodeStatus;
 import com.example.testDemo.services.impl.IAuthServiceImpl;
-import lombok.Builder;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nimbusds.jose.JOSEException;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/api/auth")
-@Builder
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
-    @Autowired
     IAuthServiceImpl authService;
-    @Autowired
-    AuthResponse authResponse;
 
-    @PostMapping("/log-in")
+    @PostMapping("/token")
     public ApiResponse<AuthResponse> authentication(@RequestBody AuthRequest request) {
-        ApiResponse<AuthResponse> apiResponse = new ApiResponse<>();
-        boolean result = authService.authenticate(request);
-        if (result){
-            apiResponse.setCode(CodeStatus.USER_LOGIN_SUCCESS.getCode());
-            apiResponse.setMessage(CodeStatus.USER_LOGIN_SUCCESS.getMessage());
-            authResponse.setAuthenticated(true);
-        } else {
-            apiResponse.setCode(CodeStatus.USER_LOGIN_FAILED.getCode());
-            apiResponse.setMessage(CodeStatus.USER_LOGIN_FAILED.getMessage());
-            authResponse.setAuthenticated(false);
-        }
-        apiResponse.setResult(authResponse);
-        return apiResponse;
+        var result = authService.authenticate(request);
+        return ApiResponse.<AuthResponse>builder()
+                .result(result)
+                .code(CodeStatus.USER_LOGIN_SUCCESS.getCode())
+                .message(CodeStatus.USER_LOGIN_SUCCESS.getMessage())
+                .build();
+    }
+
+    @PostMapping("/introspect")
+    public ApiResponse<IntrospectResponse> verifyToken(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
+        var result = authService.introspect(request);
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .code(CodeStatus.USER_LOGIN_SUCCESS.getCode())
+                .build();
     }
 }

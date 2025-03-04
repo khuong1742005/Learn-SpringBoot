@@ -3,45 +3,52 @@ package com.example.testDemo.controller;
 import com.example.testDemo.dtos.response.ApiResponse;
 import com.example.testDemo.dtos.requests.UserCreationRequest;
 import com.example.testDemo.dtos.requests.UserUpdateRequest;
+import com.example.testDemo.dtos.response.UserResponse;
 import com.example.testDemo.entities.User;
 import com.example.testDemo.helpers.CodeStatus;
 import com.example.testDemo.services.impl.IUserServiceImpl;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
-    @Autowired
-    private IUserServiceImpl userService;
-    @Autowired
-    private ModelMapper modelMapper;
+    IUserServiceImpl userService;
+    ModelMapper modelMapper;
 
     @PostMapping
-    public ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
-        ApiResponse<User> apiRespons = new ApiResponse<>();
+    public ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<UserResponse> apiRespons = new ApiResponse<>();
         apiRespons.setCode(CodeStatus.USER_CREATED_SUCCESS.getCode());
-        apiRespons.setResult(userService.createUser(request));
+        apiRespons.setResult(modelMapper.map(userService.createUser(request), UserResponse.class));
         return apiRespons;
     }
 
     @GetMapping
-    public ApiResponse<List<User>> getUsers() {
-        ApiResponse<List<User>> apiResponse = new ApiResponse<>();
+    public ApiResponse<List<UserResponse>> getUsers() {
+        ApiResponse<List<UserResponse>> apiResponse = new ApiResponse<>();
         apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
-        apiResponse.setResult(userService.getUsers());
+        List<UserResponse> userResponses = userService.getUsers()
+                .stream()
+                .map(user -> modelMapper.map(user, UserResponse.class))
+                .collect(Collectors.toList());
+        apiResponse.setResult(userResponses);
         return apiResponse;
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<User> getUserById(@PathVariable("id") String id) {
-        ApiResponse<User> apiResponse = new ApiResponse<>();
+    public ApiResponse<UserResponse> getUserById(@PathVariable("id") String id) {
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
         apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
-        apiResponse.setResult(userService.getUserById(id));
+        apiResponse.setResult(modelMapper.map(userService.getUserById(id), UserResponse.class));
         return apiResponse;
     }
 

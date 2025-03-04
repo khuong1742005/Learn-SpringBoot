@@ -1,4 +1,4 @@
-package com.example.testDemo.dtos.requests;
+package com.example.testDemo.dtos.response;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -9,13 +9,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreationRequest {
+public class UserResponse {
     @NotBlank(message = "Username must not be empty")
     @Size(min = 6, message = "Username must be at least 6 chareacters")
     String username;
-    @NotBlank(message = "Password must not be empty")
-    @Size(min = 8, message = "Password must be at least 8 chareacters")
-    String password;
     @NotBlank(message = "First name must not be empty")
     String firstName;
     @NotBlank(message = "Last name must not be empty")
