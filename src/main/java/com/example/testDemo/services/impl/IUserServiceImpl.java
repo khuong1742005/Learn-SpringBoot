@@ -5,8 +5,10 @@ import com.example.testDemo.dtos.requests.UserUpdateRequest;
 import com.example.testDemo.repositories.UserRepository;
 import com.example.testDemo.entities.User;
 import com.example.testDemo.services.interfaces.IUserService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,11 +16,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class IUserServiceImpl implements IUserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    UserRepository userRepository;
+    ModelMapper modelMapper;
 
     @Override
     public User createUser(UserCreationRequest request) {

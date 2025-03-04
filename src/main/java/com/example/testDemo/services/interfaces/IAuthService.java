@@ -1,7 +1,8 @@
 package com.example.testDemo.services.interfaces;
 
 import com.example.testDemo.dtos.requests.AuthRequest;
+import com.example.testDemo.dtos.response.AuthResponse;
 
 public interface IAuthService {
-    boolean AuthResponse(AuthRequest request);
+    AuthResponse authenticate(AuthRequest request);
 }

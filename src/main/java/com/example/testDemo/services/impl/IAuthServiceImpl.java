@@ -1,31 +1,40 @@
 package com.example.testDemo.services.impl;
 
 import com.example.testDemo.dtos.requests.AuthRequest;
+import com.example.testDemo.dtos.requests.IntrospectRequest;
 import com.example.testDemo.dtos.response.AuthResponse;
+import com.example.testDemo.dtos.response.IntrospectResponse;
 import com.example.testDemo.repositories.UserRepository;
 import com.example.testDemo.services.interfaces.IAuthService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class IAuthServiceImpl implements IAuthService {
-    @Autowired
     UserRepository userRepository;
 
     @NonFinal
-    protected static final String SIGNER_KEY = "IOg/flCDdPNoC2+j4/G0m3l8FhX7paEreFwAeO2eFf4YhZabokoyI38afEtUGut7\n";
+    @Value("${jwt.secret}")
+    protected String SIGNER_KEY;
 
     @Override
     public AuthResponse authenticate(AuthRequest request) {
@@ -35,6 +44,23 @@ public class IAuthServiceImpl implements IAuthService {
         if (!authenticated) throw new RuntimeException("Authentication failed!");
         var token = generateToken(request.getUsername());
         return AuthResponse.builder().token(token).authenticated(true).build();
+    }
+
+    // Verify JWT token
+    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
+        var token = request.getToken();
+
+        JWSVerifier jwsVerifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
+        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        var verified = signedJWT.verify(jwsVerifier);
+
+        return IntrospectResponse.builder()
+                .valid((verified && expirationTime.after(new Date())))
+                .build();
     }
 
     private String generateToken(String username) {
