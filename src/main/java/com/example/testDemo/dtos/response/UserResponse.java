@@ -26,4 +26,5 @@ public class UserResponse {
     @NotNull(message = "Age must not be empty")
     @Min(value = 16, message = "You must be at least 16 years old")
     int age;
+    String role;
 }

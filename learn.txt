@@ -317,6 +317,7 @@ hàm đánh dấu với annotation sẽ được gọi.
 - @FieldDefaults: Dùng để định nghĩa 1 field nếu không khai báo phạm vi hay bất kì gì khác:
     VD: @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 - @JsonInclude(JsonInclude.Include.NON_NULL): Dùng để JSON không trả về các field null.
+- @RequiredArgsConstructor: Dùng để yêu cầu có một constructor đầy đủ (ứng dụng trong việc inject bean)
 
 
 

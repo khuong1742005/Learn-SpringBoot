@@ -2,6 +2,7 @@ package com.example.testDemo.services.impl;
 
 import com.example.testDemo.dtos.requests.UserCreationRequest;
 import com.example.testDemo.dtos.requests.UserUpdateRequest;
+import com.example.testDemo.enums.Role;
 import com.example.testDemo.repositories.UserRepository;
 import com.example.testDemo.entities.User;
 import com.example.testDemo.services.interfaces.IUserService;
@@ -9,18 +10,18 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class IUserServiceImpl implements IUserService {
     UserRepository userRepository;
     ModelMapper modelMapper;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public User createUser(UserCreationRequest request) {
@@ -34,9 +35,8 @@ public class IUserServiceImpl implements IUserService {
             throw new RuntimeException("Phone number already exists");
         }
         User user = modelMapper.map(request, User.class);
-        user.setRole("USER");
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER.name());
         userRepository.save(user);
         return user;
     }

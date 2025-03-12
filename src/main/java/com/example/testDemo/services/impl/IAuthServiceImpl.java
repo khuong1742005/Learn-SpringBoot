@@ -4,6 +4,7 @@ import com.example.testDemo.dtos.requests.AuthRequest;
 import com.example.testDemo.dtos.requests.IntrospectRequest;
 import com.example.testDemo.dtos.response.AuthResponse;
 import com.example.testDemo.dtos.response.IntrospectResponse;
+import com.example.testDemo.entities.User;
 import com.example.testDemo.repositories.UserRepository;
 import com.example.testDemo.services.interfaces.IAuthService;
 import com.nimbusds.jose.*;
@@ -15,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +33,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class IAuthServiceImpl implements IAuthService {
     UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @NonFinal
     @Value("${jwt.secret}")
@@ -42,7 +45,7 @@ public class IAuthServiceImpl implements IAuthService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) throw new RuntimeException("Authentication failed!");
-        var token = generateToken(request.getUsername());
+        var token = generateToken(user);
         return AuthResponse.builder().token(token).authenticated(true).build();
     }
 
@@ -63,14 +66,14 @@ public class IAuthServiceImpl implements IAuthService {
                 .build();
     }
 
-    private String generateToken(String username) {
+    private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder().
-                subject(username).
+                subject(user.getUsername()).
                 issuer("demo.com").
                 issueTime(new Date()).
                 expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli())).
-                claim("Custom claim", "Custom").
+                claim("scope", user.getRole()).
                 build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
