@@ -77,4 +77,12 @@ public class UserController {
         apiResponse.setMessage(CodeStatus.USER_DELETE_FAILED.getMessage());
         return apiResponse;
     }
+
+    @GetMapping("/my-info")
+    public ApiResponse<UserResponse> getMyInfo(){
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
+        apiResponse.setResult(modelMapper.map(userService.getMyInfo(), UserResponse.class));
+        return apiResponse;
+    }
 }

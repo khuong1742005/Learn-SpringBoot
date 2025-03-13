@@ -318,6 +318,9 @@ hàm đánh dấu với annotation sẽ được gọi.
     VD: @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 - @JsonInclude(JsonInclude.Include.NON_NULL): Dùng để JSON không trả về các field null.
 - @RequiredArgsConstructor: Dùng để yêu cầu có một constructor đầy đủ (ứng dụng trong việc inject bean)
-
+- @PreAuthorize("hasAuthority('SCOPE_ADMIN')"): Dùng để phân quyền hiệu quả cùng với @EnableMethodSecurity. Trước khi
+thực hiện method thì sẽ kiểm tra.
+    + @PostAuthorize("returnObject.username == authentication.name"): Kiểm tra điều kiện.
+- @PostAuthorize: Kiểm tra sau khi method thực hiện.
 
 

@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
+    @NotBlank
+    String id;
     @NotBlank(message = "Username must not be empty")
     @Size(min = 6, message = "Username must be at least 6 chareacters")
     String username;

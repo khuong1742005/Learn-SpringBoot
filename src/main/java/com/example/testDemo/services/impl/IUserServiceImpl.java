@@ -9,15 +9,21 @@ import com.example.testDemo.services.interfaces.IUserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 public class IUserServiceImpl implements IUserService {
     UserRepository userRepository;
     ModelMapper modelMapper;
@@ -42,11 +48,13 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
     @Override
+    @PostAuthorize("returnObject.username == authentication.name")
     public User getUserById(String id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
@@ -80,5 +88,13 @@ public class IUserServiceImpl implements IUserService {
         userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         userRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public User getMyInfo(){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new RuntimeException("User not found"));
+        return user;
     }
 }
