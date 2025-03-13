@@ -12,4 +12,5 @@ public interface IUserService {
     User getUserById(String id);
     User updateUserById(String id, UserUpdateRequest request);
     boolean deleteUserById(String id);
+    User getMyInfo();
 }

@@ -11,7 +11,9 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserController {
     IUserServiceImpl userService;
     ModelMapper modelMapper;
@@ -35,6 +38,8 @@ public class UserController {
     @GetMapping
     public ApiResponse<List<UserResponse>> getUsers() {
         ApiResponse<List<UserResponse>> apiResponse = new ApiResponse<>();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
         apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
         List<UserResponse> userResponses = userService.getUsers()
                 .stream()
@@ -70,6 +75,14 @@ public class UserController {
         }
         apiResponse.setCode(CodeStatus.USER_DELETE_FAILED.getCode());
         apiResponse.setMessage(CodeStatus.USER_DELETE_FAILED.getMessage());
+        return apiResponse;
+    }
+
+    @GetMapping("/my-info")
+    public ApiResponse<UserResponse> getMyInfo(){
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(CodeStatus.USER_GET_SUCCESS.getCode());
+        apiResponse.setResult(modelMapper.map(userService.getMyInfo(), UserResponse.class));
         return apiResponse;
     }
 }
