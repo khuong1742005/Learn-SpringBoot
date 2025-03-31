@@ -322,5 +322,43 @@ hàm đánh dấu với annotation sẽ được gọi.
 thực hiện method thì sẽ kiểm tra.
     + @PostAuthorize("returnObject.username == authentication.name"): Kiểm tra điều kiện.
 - @PostAuthorize: Kiểm tra sau khi method thực hiện.
-
-
+*) Spring Security
+1. Khái niệm: Spring Security cung cấp các tính năng xác thực và phân quyền, cũng như hỗ trợ các
+tiêu chuẩn và giao thức bảo mật như HTTPS, OAuth2, JWT, ...
+2. Cơ chế hoạt động: Dựa trên cơ chế lọc (filter) và sự kiện (event) để can thiệp vào quá trình xử
+lý request và response.
+3. Gồm 3 phần: Authentication, Authorization, Authentication Provider.
+    - Authentication:
+        + Là quá trình xác thực xem người dùng có quyền truy cập vào ứng dụng hay không.
+        Thường dựa trên các thông tin nhận dạng (identifier) và thông tin bí mật (credential) của user.
+        + Cơ chế:
+            -> Form-based authentication: Xác thực thông qua một form đăng nhập.
+            -> HTTP Basic authentication: Xác thực thông qua các header authorization.
+            -> Authentication via a custom login page: Xác thực thông qau một trang đăng nhập tùy chỉnh.
+            -> Pre-authenticated authentication: Xác thực thông qua các giá trị được cung cấp phía client.
+        + Stateful và Stateless:
+            -> Stateful: là một các tiếp cận xác thực trong đó hệ thống sẽ lưu trữ thông tin xác
+            thực của người dùng hoặc ứng dụng trong một session trên máy chủ.
+            -> Stateless: hệ thống sẽ chỉ sử dụng các mã token đã được ký số để xác thực thông tin.
+            Cách này khá phổ biến bằng cách dùng JWT token và mang lại nhiều lợi ích to lớn.
+    - Authorization:
+        + Là quá trình xác định quyền truy cập của người dùng đối với các tài nguyên trong ứng dụng.
+        + Thường dựa trên các thông tin như: role, group, permission, policy,...
+    - Authentication Provider:
+        + Là một thành phần quan trọng chịu trách nhiệm xác minh thông tin xác thực của người dùng.
+        + Được sử dụng bởi Authentication Manager để xử lý.
+        + Authentication Provider chỉ hỗ trợ một loại Authentication cụ thể như:
+        UsernamePasswordAuthenticationToken, JwtAuthenticationToken, PreAuthenticatedAuthenticationToken,...
+4. Các tính năng nâng cao của Spring Security
+    - CSRF protection (Bảo vệ chống lại tấn công CSRF).
+    - Session management
+    - Password encoding
+5. Ưu và nhược điểm của Spring Security
+    - Ưu điểm:
+        + Là một framework bảo mật mạnh mẽ và linh hoạt, hỗ trợ rất nhiều tiêu chuaant và giao thức bảo
+        mật.
+        + Được tích hợp sẵn với Spring Framework, giúp việc phát triển ứng dụng web an toàn, hiệu quả.
+    - Nhược điểm:
+        + Cấu hình có thể khá phức tạp và khó hiểu, đặc biệt khi làm việc với các tính năng nâng cao.
+        + Một số tính năng có thể không phù hợp với loại ứng dụng web
+        + Yêu cầu kiến thức chuyên môn về bảo mật để sử dụng hiệu quả.
